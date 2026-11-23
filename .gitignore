@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Web
+web/node_modules/
+web/.next/
+web/*.tsbuildinfo
+
+# Local data, logs, eval results
+outputs/
+evals/results/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Misc
+.DS_Store
+.idea/
+.vscode/
+*.log

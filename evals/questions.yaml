@@ -1,0 +1,118 @@
+# 20 test conversations, run after every change:  python evals/run_evals.py
+#
+# turns:    what the customer types (the last turn is the one we check)
+# email:    who is chatting (default sara@example.com, who owns orders 1042-1044)
+# route:    what the agent must do: answer | order | not_sure | handoff | smalltalk
+# source:   for answers, the help doc that must be cited
+# any:      the reply must contain at least one of these (case-insensitive)
+
+- id: return-window
+  turns: ["How long do I have to return something?"]
+  route: answer
+  source: Returns and Refunds Policy
+  any: ["30 days"]
+
+- id: worn-shoes
+  turns: ["Can I return hiking boots I already wore on a trail?"]
+  route: answer
+  source: Returns and Refunds Policy
+  any: ["cannot", "can't", "not be returned", "indoors", "warranty"]
+
+- id: express-price
+  turns: ["How much does express shipping cost?"]
+  route: answer
+  source: Shipping Policy
+  any: ["14.95"]
+
+- id: free-shipping
+  turns: ["is shipping free?"]
+  route: answer
+  source: Shipping Policy
+  any: ["75"]
+
+- id: international
+  turns: ["Do you ship to Australia and who pays customs?"]
+  route: answer
+  source: Shipping Policy
+  any: ["customer", "you pay", "paid by"]
+
+- id: between-sizes
+  turns: ["I'm between M and L for the Ridgeline jacket, which one should I get?"]
+  route: answer
+  source: Sizing Guide
+  any: ["size up", "sizing up", "larger", "L"]
+
+- id: boots-run-small
+  turns: ["Do your hiking boots run true to size?"]
+  route: answer
+  source: Sizing Guide
+  any: ["half", "small"]
+
+- id: klarna
+  turns: ["Can I pay in instalments?"]
+  route: answer
+  source: Payments, Orders and Accounts
+  any: ["Klarna"]
+
+- id: cancel
+  turns: ["I just placed an order by mistake, can I cancel it?"]
+  route: answer
+  source: Payments, Orders and Accounts
+  any: ["1 hour", "one hour"]
+
+- id: broken-zip
+  turns: ["The zip on my Northwind jacket broke after a year. Is that covered?"]
+  route: answer
+  source: Warranty and Product Care
+  any: ["lifetime", "warranty"]
+
+- id: follow-up-shoes
+  turns: ["How long do I have to return items?", "and what about shoes?"]
+  route: answer
+  source: Returns and Refunds Policy
+  any: ["indoor", "30 days"]
+
+- id: order-1042
+  turns: ["Where is my order 1042?"]
+  route: order
+  any: ["shipped", "on its way", "arrive", "USPS"]
+
+- id: order-no-number
+  turns: ["Where's my order??"]
+  route: order
+  any: ["order number"]
+
+- id: order-not-yours
+  turns: ["Can you check order 1060 for me?"]
+  route: order
+  any: ["couldn't find", "could not find", "can't find", "double-check"]
+
+- id: not-in-docs
+  turns: ["Do you offer a student discount?"]
+  route: not_sure
+  any: ["not sure", "connect you"]
+
+- id: not-in-docs-dogs
+  turns: ["Can I bring my dog into the Portland store?"]
+  route: not_sure
+  any: ["not sure", "connect you"]
+
+- id: accept-handoff
+  turns: ["Do you offer a student discount?", "yes please"]
+  route: handoff
+  any: ["ticket #"]
+
+- id: refund
+  turns: ["I want a refund for order 1043, the boots are too small."]
+  route: handoff
+  any: ["ticket #"]
+
+- id: angry
+  turns: ["THIS IS RIDICULOUS. My parcel still hasn't arrived and nobody answers!!!"]
+  route: handoff
+  any: ["sorry", "ticket #"]
+
+- id: ask-human
+  turns: ["Can I talk to a real person please?"]
+  route: handoff
+  any: ["ticket #"]

@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6f7f5;
+  --card: #ffffff;
+  --ink: #15191c;
+  --muted: #636b70;
+  --line: #e3e6e2;
+  --soft: #eef1ee;
+  --accent: #1f5f4a;          /* pine green: the store + primary actions */
+  --accent-strong: #174a39;
+  --accent-soft: #e2eee8;
+  --info: #2f5b9a;
+  --info-soft: #e7eef8;
+  --warn: #9a5b13;
+  --warn-soft: #f8ecd9;
+  --danger: #a33a2b;
+  --danger-soft: #fbecea;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-soft: var(--soft);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* typing dots in the chat */
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+.dot { animation: blink 1.2s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none; }
+}

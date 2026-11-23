@@ -1,0 +1,22 @@
+"""Database connection (SQLAlchemy 2 + PostgreSQL with pgvector)."""
+
+from collections.abc import Iterator
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+
+from helpdesk.settings import get_settings
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+engine = create_engine(get_settings().database_url, pool_pre_ping=True)
+SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
+
+
+def get_db() -> Iterator[Session]:
+    """FastAPI dependency: one session per request."""
+    with SessionLocal() as db:
+        yield db
