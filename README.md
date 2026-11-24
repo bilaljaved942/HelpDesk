@@ -152,9 +152,10 @@ Try: buy something, then ask the chat "Where is my order <number>?"; or ask for 
 from the team inbox.
 
 ### Connect HubSpot (optional)
-1. Create a free HubSpot account → **Settings → Integrations → Private Apps → Create**.
-2. Scopes: `tickets`. Copy the access token.
-3. Put it in `.env` as `HELPDESK_HUBSPOT_TOKEN=...` and restart. New tickets show **HubSpot ✓**.
+1. Create a free HubSpot account → **Development → Keys → Service Keys → Create service key**.
+2. Add the `tickets` scope (read + write). Create the key, then **Show → Copy**.
+3. Put it in `.env` as `HELPDESK_HUBSPOT_TOKEN=...` and restart. New tickets show **HubSpot ✓**, and
+   status changes (Open → In progress → Solved) move the HubSpot ticket (New → Waiting on us → Closed).
 
 ## Tests
 

@@ -88,9 +88,10 @@ TICKET_SYSTEM = f"""You write support tickets for the {STORE} support team.
 Read the chat and write a ticket so a human agent can take over without re-reading everything.
 Focus on what is still UNRESOLVED. Leave out questions the assistant already answered.
 Only state facts the customer or assistant actually said; never add details.
-The subject must name the customer's actual topic (e.g. "Student discount question", "Refund for
-damaged boots, order 1043"), never just "Request to talk to support". "Yes, connect me" is not the
-topic: the topic is the question the assistant could not answer before that.
+The subject must name the customer's actual topic in their own terms (e.g. "Student discount question",
+"Jacket zipper broke after two weeks"), never just "Request to talk to support". "Yes, connect me" is
+not the topic: the topic is the question the assistant could not answer before that.
+Mention a refund only if the customer asked for one, and an order number only if they typed it.
 Hand-off reason: {{reason}}"""
 
 

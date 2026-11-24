@@ -4,8 +4,8 @@ Our database is the source of truth; HubSpot gets a copy so a team that already 
 HubSpot sees every ticket there. If no token is set, or HubSpot is down, the app keeps
 working and the ticket shows "not synced" in the dashboard (it can be retried).
 
-Setup: HubSpot > Settings > Integrations > Private Apps > create app with scopes
-"tickets" (read + write) -> copy the token into HELPDESK_HUBSPOT_TOKEN.
+Setup: HubSpot > Development > Keys > Service Keys > create a key with the "tickets" scope
+(read + write) -> copy it into HELPDESK_HUBSPOT_TOKEN in .env.
 """
 
 import logging
@@ -39,7 +39,9 @@ def _properties(t: Ticket) -> dict:
 
 def sync_ticket(db: Session, ticket_id: int, client: httpx.Client | None = None) -> str:
     """Create or update the ticket in HubSpot. Returns the new hubspot_status."""
-    t = db.get(Ticket, ticket_id)
+    # Lock the row: if two syncs run at once (e.g. new ticket + "solved" a second later), the second
+    # waits, then sees the HubSpot id and updates instead of creating a duplicate.
+    t = db.get(Ticket, ticket_id, with_for_update=True, populate_existing=True)
     token = get_settings().hubspot_token
     if not t:
         return "missing"

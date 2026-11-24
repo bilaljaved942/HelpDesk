@@ -279,6 +279,14 @@ def lookup_order_node(state: State, config: RunnableConfig) -> State:
                          "snippet": f"Status: {facts['status']}", "score": 1.0}]}
 
 
+_NUMBER = re.compile(r"[,(]?\s*(?:order\s*)?#?\b(\d{3,})\b\)?", re.I)
+
+
+def _drop_unsaid_numbers(text: str, chat: str) -> str:
+    """Remove order-like numbers the model added that never appear in the chat."""
+    return _NUMBER.sub(lambda m: m.group(0) if m.group(1) in chat else "", text).strip(" ,")
+
+
 def handoff(state: State, config: RunnableConfig) -> State:
     db, llm = _deps(config)
     reason = handoff_reason(state)
@@ -304,6 +312,8 @@ def handoff(state: State, config: RunnableConfig) -> State:
             draft = llm.json(TICKET_SYSTEM.format(reason=reason), chat, TicketDraft)
         except Exception:
             draft = TicketDraft(subject=state["message"][:80], summary=chat[-1000:], category="other")
+        draft.subject = _drop_unsaid_numbers(draft.subject, chat)
+        draft.summary = _drop_unsaid_numbers(draft.summary, chat)
         category = "refund" if a.get("refund_request") else draft.category
         ticket = create_ticket(db, subject=draft.subject, summary=draft.summary, category=category,
                                priority=priority, customer_email=state.get("customer_email", ""),
